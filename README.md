@@ -23,12 +23,12 @@ data-model for events :D
 
 ## Calendar
 
-  - Upcoming Appontments
+  - Upcoming Appointments
   - Reminders ?
 
 ### Database Structure
 
-Events
+  - Events ( in general )
     - Type ( ? )
     - Title
     - Color
@@ -52,28 +52,50 @@ Item-Type and fields specific to different sub-functions.
 
 ### Data Model: Events
 
-  - owners : [User] ( value := private event, null := public event )
+  - id : UUID
+  - owners : [User] value := private event | null := public event
   - participants : [User]
-  - type : Enum : ['appointment'|'reminder'|'todo']
+  - type : Enum : 'appointment'|'reminder'|'todo'
   - title : String
   - description : String (notes, links, free-text)
   - notification : String
   - color : String
   - date : Date
   - location : String
-  - priority : Number | enum : ['low'|'average'|'high']
-  - repeat : enum : ['daily'|'weekly'|'monthly'|'yearly']
+  - priority : Number | enum : 'low'|'average'|'high'
+  - repeat : enum : 'daily'|'weekly'|'monthly'|'yearly'
   - alarm : Date
 
 ### Actions
+
+For the list function it would actually make sense if we
+could filter as detailed as possible,
+with all the functions wee need to make sure that we
+honor the owners privilege of editing and deleting.
+
   - List (many)
+      - POST /list {Event}
       - Filter events by any field
-      - Protect private events !
+      - Protect private events! (check owners and participants)
   - Get (one)
-      - Protect private events !
+      - GET /:id
+      - Protect private events! (check owners and participants)
   - Create
-      - Protect private events !
+      - POST / {Event}
+      - Protect private events!
   - Edit
-      - Protect private events !
+      - PATCH /:id {Event}
+      - Protect private events!
   - Delete
-      - Protect private events !
+      - DELETE /:id
+      - Protect private events!
+
+## Tasks
+
+  1. Get a boilerplate running
+     Steal code, install modules, make it work
+  2. Figure out a uuid module
+  3. Create Database
+  4. Create skeleton routes
+  5. Write controller (simple to hard)
+  6. Test it!
